@@ -8,6 +8,6 @@ Quick start:
 2. server: copy server/.env.example to server/.env and set MONGO_URI
 3. cd server && npm install && npm run seed && npm start
 4. cd client && npm install && npm run dev
-Seed creates bureau accounts with password: password123 (emails listed in script)
+Seed creates bureau accounts with password: 
 
-Contact: info@ethiostat.gov.et
+
