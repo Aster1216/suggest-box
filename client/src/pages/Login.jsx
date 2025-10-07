@@ -1,0 +1,129 @@
+import React, { useState, useEffect } from "react"
+
+export default function Login({ lang, API_BASE, onSuccess, onCancel }) {
+  const [bureaus, setBureaus] = useState([])
+  const [office, setOffice] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [loading, setLoading] = useState(false)
+
+  // Load bureaus from API
+  useEffect(() => {
+    async function load() {
+      try {
+        const res = await fetch(`${API_BASE}/bureaus`)
+        if (!res.ok) throw new Error("Failed to fetch bureaus")
+        const data = await res.json()
+        setBureaus(data)
+      } catch (err) {
+        console.error("Error fetching bureaus:", err)
+      }
+    }
+    load()
+  }, [API_BASE])
+
+  // Auto-fill email when office changes
+  useEffect(() => {
+    if (office) {
+      const bureau = bureaus.find(b => b.key === office)
+      if (bureau) {
+        setEmail(bureau.email || "")
+      }
+    } else {
+      setEmail("")
+    }
+  }, [office, bureaus])
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    setLoading(true)
+    try {
+      const res = await fetch(`${API_BASE}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        // ✅ send office along with email + password
+        body: JSON.stringify({ office, email, password })
+      })
+      const data = await res.json()
+
+      if (res.ok && data.token) {
+        localStorage.setItem("token", data.token)
+        localStorage.setItem("bureau", JSON.stringify(data.bureau))
+        onSuccess(data) // notify parent
+      } else {
+        alert(data.error || "Invalid credentials")
+      }
+    } catch (err) {
+      alert("Server error")
+      console.error(err)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div className="modal">
+      <div className="modal-content">
+        <h2>{lang === "en" ? "Login" : "ግባ"}</h2>
+
+        <form onSubmit={handleSubmit}>
+          {/* Office Dropdown */}
+          <label>
+            <span>{lang === "en" ? "Select Office" : "ቢሮ ይምረጡ"}</span>
+            <select
+              value={office}
+              onChange={(e) => setOffice(e.target.value)}
+              required
+            >
+              <option value="">
+                {lang === "en" ? "Choose..." : "ይምረጡ..."}
+              </option>
+              {bureaus.map((b) => (
+                <option key={b.key} value={b.key}>
+                  {lang === "en" ? b.name_en : b.name_am}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          {/* Email (auto-filled, editable) */}
+          <label>
+            <span>{lang === "en" ? "Bureau Email" : "ኢሜይል"}</span>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder={lang === "en" ? "Enter bureau email" : "ኢሜይል ያስገቡ"}
+              required
+            />
+          </label>
+
+          {/* Password */}
+          <label>
+            <span>{lang === "en" ? "Password" : "የይለፍ ቃል"}</span>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder={lang === "en" ? "Enter password" : "የይለፍ ቃል ያስገቡ"}
+              required
+            />
+          </label>
+
+          {/* Buttons */}
+          <div className="btn-group">
+            <button type="submit" className="btn-primary" disabled={loading}>
+              {loading
+                ? lang === "en" ? "Logging in..." : "በመግባት ላይ..."
+                : lang === "en" ? "Login" : "ግባ"}
+            </button>
+            <button type="button" className="btn-secondary" onClick={onCancel}>
+              {lang === "en" ? "Cancel" : "ሰርዝ"}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  )
+}
+

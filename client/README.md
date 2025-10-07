@@ -1,0 +1,1 @@
+Client: run `npm install` then `npm run dev` inside client folder.
