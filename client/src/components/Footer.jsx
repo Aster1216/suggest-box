@@ -17,9 +17,11 @@ export default function Footer({ t }) {
         {/* Contact Info */}
         <div className="contact">
           <h3>{t.contactUs}</h3>
-          <p>Ethiopian Statistics Service</p>
-          <p>{t.phone}: +251942215916</p>
+          <p><strong>{t.organization}</strong></p>
+          <p>{t.phone}: +251-11553112</p>
           <p>{t.email}: info@ethiostat.gov.et</p>
+          <p>{t.address}: {t.addressValue}</p>
+
         </div>
       </div>
 
