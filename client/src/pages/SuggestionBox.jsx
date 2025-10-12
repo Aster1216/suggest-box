@@ -81,14 +81,27 @@ export default function SuggestionBox({ t, lang }) {
           />
 
           {/* Public checkbox */}
-          <label style={{ display: 'block', marginTop: 12 }}>
-            <input
-              type="checkbox"
-              checked={form.isPublic}
-              onChange={e => setForm({ ...form, isPublic: e.target.checked })}
-            />{' '}
+        <label
+             htmlFor="public"
+             style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "100px",
+              marginTop: "12px",
+              cursor: "pointer",
+              color: "#0f2b44",
+              }}
+          >
             {t.makePublic}
-          </label>
+          <input
+            id="public"
+            type="checkbox"
+            checked={form.isPublic}
+            onChange={e => setForm({ ...form, isPublic: e.target.checked })}
+            style={{ width: 16, height: 16, cursor: "pointer" }}
+          />
+        </label>
+
 
           {/* Submit + status */}
           <div style={{ marginTop: 14, display: 'flex', gap: 12, alignItems: 'center' }}>
