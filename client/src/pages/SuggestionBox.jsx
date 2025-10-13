@@ -19,10 +19,12 @@ export default function SuggestionBox({ t, lang }) {
     const params = new URLSearchParams(window.location.search)
     const loginAs = params.get('loginAs')
     if (loginAs) {
-      listBureaus().then(all => {
-        const found = all.find(b => b.email === loginAs || b.key === loginAs)
-        if (found) setForm(f => ({ ...f, bureau_key: found.key }))
-      }).catch(() => {})
+      listBureaus()
+        .then(all => {
+          const found = all.find(b => b.email === loginAs || b.key === loginAs)
+          if (found) setForm(f => ({ ...f, bureau_key: found.key }))
+        })
+        .catch(() => {})
     }
   }, [])
 
@@ -37,7 +39,13 @@ export default function SuggestionBox({ t, lang }) {
     try {
       await submitSuggestion(form)
       setStatus(t.submitSuccess)
-      setForm({ bureau_key: '', message: '', email: '', isPublic: false, language: lang })
+      setForm({
+        bureau_key: '',
+        message: '',
+        email: '',
+        isPublic: false,
+        language: lang
+      })
     } catch (err) {
       setStatus(t.submitFail)
     }
@@ -47,6 +55,7 @@ export default function SuggestionBox({ t, lang }) {
     <div className="container" style={{ padding: '28px 20px' }}>
       <div className="form">
         <h3 style={{ marginTop: 0 }}>{t.submitSuggestion}</h3>
+
         <form onSubmit={handleSubmit}>
           {/* Office Dropdown */}
           <label>{t.office}</label>
@@ -66,7 +75,7 @@ export default function SuggestionBox({ t, lang }) {
           <label>{t.message}</label>
           <textarea
             rows={6}
-            placeholder={t.message}   // 🔹 placeholder follows lang
+            placeholder={t.message} // 🔹 placeholder follows lang
             value={form.message}
             onChange={e => setForm({ ...form, message: e.target.value })}
           />
@@ -75,36 +84,44 @@ export default function SuggestionBox({ t, lang }) {
           <label>{t.emailOptional}</label>
           <input
             type="email"
-            placeholder={t.emailOptional}   // 🔹 placeholder follows lang
+            placeholder={t.emailOptional} // 🔹 placeholder follows lang
             value={form.email}
             onChange={e => setForm({ ...form, email: e.target.value })}
           />
 
-          {/* Public checkbox */}
-        <label
-             htmlFor="public"
-             style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "100px",
-              marginTop: "12px",
-              cursor: "pointer",
-              color: "#0f2b44",
-              }}
+          {/* Public checkbox (after text) */}
+          <label
+            htmlFor="public"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              marginTop: '12px',
+              cursor: 'pointer',
+              color: '#0f2b44'
+            }}
           >
             {t.makePublic}
-          <input
-            id="public"
-            type="checkbox"
-            checked={form.isPublic}
-            onChange={e => setForm({ ...form, isPublic: e.target.checked })}
-            style={{ width: 16, height: 16, cursor: "pointer" }}
-          />
-        </label>
-
+            <input
+              id="public"
+              type="checkbox"
+              checked={form.isPublic}
+              onChange={e =>
+                setForm({ ...form, isPublic: e.target.checked })
+              }
+              style={{ width: 16, height: 16, cursor: 'pointer' }}
+            />
+          </label>
 
           {/* Submit + status */}
-          <div style={{ marginTop: 14, display: 'flex', gap: 12, alignItems: 'center' }}>
+          <div
+            style={{
+              marginTop: 14,
+              display: 'flex',
+              gap: 50,
+              alignItems: 'center'
+            }}
+          >
             <button type="submit" className="btn-primary">
               {t.submitBtn}
             </button>
@@ -114,4 +131,4 @@ export default function SuggestionBox({ t, lang }) {
       </div>
     </div>
   )
-} 
+}
