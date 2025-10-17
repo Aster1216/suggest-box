@@ -1,14 +1,13 @@
+require('dotenv').config({ path: require('path').join(__dirname, '../.env') });
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const Bureau = require('../models/Bureau');
-require('dotenv').config();
+const Bureau = require('../models/Bureau'); // ✅ fixed path
 
-// Add password for each bureau
 const bureaus = [
   { en: "Economic Statistics Deputy Director General", am: "የኢኮኖሚ ስታቲክስ ዘርፍ ምክትል ዋና ዳይሬክተር", key: "economic", password: "economic123" },
   { en: "Agriculture Statistics CEO", am: "የግብርና ስታቲክስ መሪ ሥራ አስፈፃሚ", key: "agriculture", password: "agriculture123" },
-  { en: "Business Statistics CEO", am: "የቢዝነስ ስታቲክስ መሪ ሣራ አስፈፃሚ", key: "business", password: "business123" },
-  { en: "Price Statistics CEO", am: "የዋጋ ስታቲስቲክስ መሪ ስራ አስፈፃሚ", key: "price", password: "price123" },
+  { en: "Business Statistics CEO", am: "የቢዝነስ ስታቲስቲክስ መሪ ሣራ አስፈፃሚ", key: "business", password: "business123" },
+  { en: "Price Statistics CEO", am: "የዋጋ ስታቲስቲክስ መሪ ሥራ አስፈፃሚ", key: "price", password: "price123" },
   { en: "Geospatial Statistics CEO", am: "የጂኦስፓሻል ስታቲስቲክስ መሪ ሣራ አስፈፃሚ", key: "geo", password: "geo123" },
   { en: "Statistical Data Dissemination CEO", am: "የስታቲሲቲካል መረጃ ስርጭት እና መዳረሻ መሪ ሣራ አስፈፃሚ", key: "dissemination", password: "dissemination123" },
   { en: "Statistical System Development and Methodology Deputy Director General", am: "የስታቲስቲካል ስርዓት ልማት እና ዘዴ ምክትል ዋና ዳይሬክተር", key: "system", password: "system123" },
@@ -23,11 +22,16 @@ const bureaus = [
 
 (async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI || "mongodb://localhost:27017/suggestbox");
-    console.log("✅ Connected to MongoDB...");
+    if (!process.env.MONGO_URI) {
+      console.error('❌ MONGO_URI is missing in .env');
+      process.exit(1);
+    }
+
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log('✅ Connected to MongoDB Atlas');
 
     await Bureau.deleteMany();
-    console.log("🗑️ Old bureaus cleared");
+    console.log('🗑️ Old bureaus cleared');
 
     for (let b of bureaus) {
       const hashed = await bcrypt.hash(b.password, 10);
@@ -36,15 +40,15 @@ const bureaus = [
         name_am: b.am,
         key: b.key,
         email: `${b.key}@ethiostat.gov.et`,
-        passwordHash: hashed
+        passwordHash: hashed,
       });
       console.log(`✔ Created: ${b.key}@ethiostat.gov.et | password: ${b.password}`);
     }
 
-    console.log("🎉 Bureaus seeded successfully");
-    process.exit();
+    console.log('🎉 Bureaus seeded successfully');
+    process.exit(0);
   } catch (err) {
-    console.error("❌ Error seeding bureaus:", err);
+    console.error('❌ Error seeding bureaus:', err);
     process.exit(1);
   }
 })();
