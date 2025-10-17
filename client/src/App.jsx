@@ -5,7 +5,8 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import SuggestionBox from "./pages/SuggestionBox";
 import PublicSuggestions from "./pages/PublicSuggestions";
-import Contact from "./pages/Contact";
+import Contact from "/src./pages/Contact.jsx";
+;
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login"; // ✅ Import your Login page
 import translations from "./translations";
