@@ -1,3 +1,4 @@
+
 :root {
   --navy: #0d3b66;
   --navy-dark: #001f3f;
@@ -266,7 +267,8 @@ a {
     padding: 12px 0;
   }
 
-  .mobile-nav a {
+Aster Cs, [10/18/2025 4:37 AM]
+.mobile-nav a {
     color: #fff;
     padding: 8px 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.15);
@@ -416,6 +418,30 @@ a {
   font-size: 0.9rem;
 }
 
+.social-icons {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.social-icons .icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px; /* Add more space between icons */
+  margin-top: 8px;
+}
+
+.social-icons a {
+  font-size: 24px;
+  color: #ffffff; /* or #0033cc depending on your theme */
+  transition: 0.3s;
+}
+
+.social-icons a:hover {
+  color: #0099ff; /* hover effect */
+}
+
+
 /* language toggle*/
 .lang-btn {
   background: transparent;
@@ -493,6 +519,7 @@ a {
   transition: background 0.25s;
 }
 
+Aster Cs, [10/18/2025 4:37 AM]
 .modal-content button[type="submit"] {
   background: var(--navy);
   color: #fff;
@@ -561,3 +588,84 @@ a {
   }
 }
 
+/*contact*/
+.contact-page {
+  padding: 40px 20px;
+  background-color: #f9fafc;
+  font-family: "Poppins", sans-serif;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.contact-title {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 30px;
+  font-weight: bold;
+}
+
+.contact-form {
+  background: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.contact-form label {
+  font-weight: 600;
+  margin-top: 10px;
+  display: block;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  margin-top: 6px;
+  margin-bottom: 15px;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+}
+
+.send-btn {
+  width: 100%;
+  background-color: #0033cc;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.send-btn:hover {
+  background-color: #002699;
+}
+
+.contact-info {
+  margin-top: 40px;
+  text-align: left;
+}
+
+.contact-info h3 {
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.contact-info p {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.contact-info a {
+  color: #0033cc;
+  text-decoration: none;
+}
+.error {
+  color: red;
+  font-size: 14px;
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
