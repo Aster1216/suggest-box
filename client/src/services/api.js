@@ -26,3 +26,12 @@ export async function getOfficeSuggestions(token) {
   const r = await API.get('/suggestions/bureau', { headers: { Authorization: 'Bearer ' + token } })
   return r.data
 }
+
+export async function changePassword(token, oldPassword, newPassword) {
+  const r = await API.post(
+    '/auth/change-password',
+    { oldPassword, newPassword },
+    { headers: { Authorization: 'Bearer ' + token } }
+  );
+  return r.data;
+}
