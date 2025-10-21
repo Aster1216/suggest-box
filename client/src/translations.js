@@ -5,10 +5,13 @@ const translations = {
     suggestion: "Suggestion",
     public: "Public Suggestions",
     contact: "Contact",
-    contactUs: "Contact Us",
+    contactUs: "contact us",
     phone: "Phone",
     email: "Email",
-    rights: "© 2024 Ethiopian Statistics Service. All rights reserved.",
+    rights: "Ethiopian Statistics Service. All rights reserved.",
+    quickLinks: "Quick Links",
+    followUs: "Follow Us",
+    address: "Churchill Road, Addis Ababa",
 
     // Header / Language
     language: "አማርኛ", // Show Amharic when English is active
@@ -56,6 +59,15 @@ const translations = {
     suggestionCol: "Suggestion",
     dateCol: "Date",
     noSuggestions: "No suggestions yet.",
+
+    // Password
+    changePasswordTitle: "Change Password",
+    oldPassword: "Old Password",
+    newPassword: "New Password",
+    confirmNewPassword: "Confirm New Password",
+    updatePasswordBtn: "Update Password",
+    passwordsDontMatch: "Passwords do not match",
+    changePasswordFail: "Failed to change password",
   },
 
   am: {
@@ -64,10 +76,13 @@ const translations = {
     suggestion: "የጥቆማ ሳጥን",
     public: "የህዝብ ጥቆማዎች",
     contact: "አግኙን",
-    contactUs: "አግኙን",
+    contactUs: "ያግኙን",
     phone: "ስልክ",
     email: "ኢሜይል",
-    rights: "© 2024 የኢትዮጵያ ስታቲስቲክስ አገልግሎት። መብቱ በሙሉ የተጠበቀ ነው።",
+    rights: "የኢትዮጵያ ስታቲስቲክስ አገልግሎት። መብቱ በሙሉ የተጠበቀ ነው።",
+    quickLinks: "ፈጣን አገናኝ",
+    followUs: "ይከታተሉን",
+    address: "ቼርችል መንገድ, አዲስ አበባ",
 
     // Header / Language
     language: "English", // Show English when Amharic is active
@@ -76,6 +91,8 @@ const translations = {
     welcome: "እንኳን ወደ የኢትዮጵያ ስታቲስቲክስ አገልግሎት በደህና መጡ",
     heroSubtitle: "የትክክለኛ መረጃ ለየተሻለ ወደፊት።",
     ourServices: "የእኛ የስታቲስቲክስ አገልግሎቶች",
+
+    dashboard: "ዳሽቦርድ",
 
     // Services (Home)
     population: "የህዝብ ስታቲስቲክስ",
@@ -115,7 +132,16 @@ const translations = {
     suggestionCol: "ጥቆማ",
     dateCol: "ቀን",
     noSuggestions: "ገና ጥቆማ የለም።",
-  },
-}
 
-export default translations
+    // Password
+    changePasswordTitle: "የይለፍ ቃል ቀይር",
+    oldPassword: "ያለፈው የይለፍ ቃል",
+    newPassword: "አዲስ የይለፍ ቃል",
+    confirmNewPassword: "አዲሱን የይለፍ ቃል ያረጋግጡ",
+    updatePasswordBtn: "አዘምን",
+    passwordsDontMatch: "የይለፍ ቃላቱ አይመሳሰሉም",
+    changePasswordFail: "የይለፍ ቃል መቀየር አልተሳካም",
+  },
+};
+
+export default translations;
