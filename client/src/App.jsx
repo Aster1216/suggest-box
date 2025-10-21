@@ -5,11 +5,12 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import SuggestionBox from "./pages/SuggestionBox";
 import PublicSuggestions from "./pages/PublicSuggestions";
-import Contact from "/src./pages/Contact.jsx";
-;
+import Contact from "./pages/Contact";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login"; // ✅ Import your Login page
 import translations from "./translations";
+import ChangePassword from "./pages/ChangePassword";
+
 
 export default function App() {
   const [lang, setLang] = useState("en");
@@ -28,6 +29,8 @@ export default function App() {
           <Route path="/public" element={<PublicSuggestions t={t} lang={lang} />} />
           <Route path="/contact" element={<Contact t={t} />} />
           <Route path="/dashboard" element={<Dashboard t={t} lang={lang} />} />
+          <Route path="/change-password" element={<ChangePassword lang={lang} />} />
+
           <Route
             path="/login"
             element={<Login lang={lang} API_BASE={API_BASE} onSuccess={() => window.location.href = "/dashboard"} />}
