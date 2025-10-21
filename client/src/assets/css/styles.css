@@ -754,3 +754,66 @@ a {
 }
 
 
+/* ---------------- Change Password ---------------- */
+.change-password-container {
+  max-width: 420px;
+  margin: 80px auto;
+  padding: 30px;
+  background: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.change-password-container h2 {
+  text-align: center;
+  color: var(--primary-color, #004080);
+  margin-bottom: 20px;
+  font-size: 1.6rem;
+}
+
+.change-password-form .form-group {
+  margin-bottom: 15px;
+}
+
+.change-password-form label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.change-password-form input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+}
+
+.change-password-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: var(--accent, #007bff);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.change-password-btn:hover {
+  background-color: #0056b3;
+}
+
+.success-msg {
+  color: green;
+  text-align: center;
+  margin-top: 15px;
+}
+
+.error-msg {
+  color: red;
+  text-align: center;
+  margin-top: 15px;
+}
