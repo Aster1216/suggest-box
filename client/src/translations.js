@@ -59,6 +59,7 @@ const translations = {
     suggestionCol: "Suggestion",
     dateCol: "Date",
     noSuggestions: "No suggestions yet.",
+    totalSuggestions: "Total Suggestions",
 
     // Password
     changePasswordTitle: "Change Password",
@@ -132,6 +133,7 @@ const translations = {
     suggestionCol: "ጥቆማ",
     dateCol: "ቀን",
     noSuggestions: "ገና ጥቆማ የለም።",
+    totalSuggestions: "ጠቅላላ ጥቆማዎች",
 
     // Password
     changePasswordTitle: "የይለፍ ቃል ቀይር",
