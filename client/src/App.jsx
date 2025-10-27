@@ -29,7 +29,8 @@ export default function App() {
           <Route path="/public" element={<PublicSuggestions t={t} lang={lang} />} />
           <Route path="/contact" element={<Contact t={t} />} />
           <Route path="/dashboard" element={<Dashboard t={t} lang={lang} />} />
-          <Route path="/change-password" element={<ChangePassword lang={lang} />} />
+          <Route path="/change-password" element={<ChangePassword lang={lang} t={t} />} />
+
 
           <Route
             path="/login"
