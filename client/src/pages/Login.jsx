@@ -1,63 +1,62 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function Login({ lang, API_BASE, onSuccess, onCancel }) {
-  const [bureaus, setBureaus] = useState([])
-  const [office, setOffice] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [loading, setLoading] = useState(false)
+  const [bureaus, setBureaus] = useState([]);
+  const [office, setOffice] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // Load bureaus from API
   useEffect(() => {
     async function load() {
       try {
-        const res = await fetch(`${API_BASE}/bureaus`)
-        if (!res.ok) throw new Error("Failed to fetch bureaus")
-        const data = await res.json()
-        setBureaus(data)
+        const res = await fetch(`${API_BASE}/bureaus`);
+        if (!res.ok) throw new Error("Failed to fetch bureaus");
+        const data = await res.json();
+        setBureaus(data);
       } catch (err) {
-        console.error("Error fetching bureaus:", err)
+        console.error("Error fetching bureaus:", err);
       }
     }
-    load()
-  }, [API_BASE])
+    load();
+  }, [API_BASE]);
 
   // Auto-fill email when office changes
   useEffect(() => {
     if (office) {
-      const bureau = bureaus.find(b => b.key === office)
-      if (bureau) {
-        setEmail(bureau.email || "")
-      }
+      const bureau = bureaus.find((b) => b.key === office);
+      if (bureau) setEmail(bureau.email || "");
     } else {
-      setEmail("")
+      setEmail("");
     }
-  }, [office, bureaus])
+  }, [office, bureaus]);
 
   async function handleSubmit(e) {
-    e.preventDefault()
-    setLoading(true)
+    e.preventDefault();
+    setLoading(true);
     try {
       const res = await fetch(`${API_BASE}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        // ✅ send office along with email + password
-        body: JSON.stringify({ office, email, password })
-      })
-      const data = await res.json()
+        body: JSON.stringify({ office, email, password }),
+      });
+      const data = await res.json();
 
       if (res.ok && data.token) {
-        localStorage.setItem("token", data.token)
-        localStorage.setItem("bureau", JSON.stringify(data.bureau))
-        onSuccess(data) // notify parent
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("bureau", JSON.stringify(data.bureau));
+        onSuccess(data);
       } else {
-        alert(data.error || "Invalid credentials")
+        alert(data.error || "Invalid credentials");
       }
     } catch (err) {
-      alert("Server error")
-      console.error(err)
+      alert("Server error");
+      console.error(err);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -86,36 +85,52 @@ export default function Login({ lang, API_BASE, onSuccess, onCancel }) {
             </select>
           </label>
 
-          {/* Email (auto-filled, editable) */}
+          {/* Email */}
           <label>
             <span>{lang === "en" ? "Bureau Email" : "ኢሜይል"}</span>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder={lang === "en" ? "Enter bureau email" : "ኢሜይል ያስገቡ"}
+              placeholder={
+                lang === "en" ? "Enter bureau email" : "ኢሜይል ያስገቡ"
+              }
               required
             />
           </label>
 
-          {/* Password */}
+          {/* Password with Eye Toggle */}
           <label>
             <span>{lang === "en" ? "Password" : "የይለፍ ቃል"}</span>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder={lang === "en" ? "Enter password" : "የይለፍ ቃል ያስገቡ"}
-              required
-            />
+            <div className="password-container">
+              <input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder={
+                  lang === "en" ? "Enter password" : "የይለፍ ቃል ያስገቡ"
+                }
+                required
+              />
+              <span
+                className="password-toggle"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
+            </div>
           </label>
 
           {/* Buttons */}
           <div className="btn-group">
             <button type="submit" className="btn-primary" disabled={loading}>
               {loading
-                ? lang === "en" ? "Logging in..." : "በመግባት ላይ..."
-                : lang === "en" ? "Login" : "ግባ"}
+                ? lang === "en"
+                  ? "Logging in..."
+                  : "በመግባት ላይ..."
+                : lang === "en"
+                ? "Login"
+                : "ግባ"}
             </button>
             <button type="button" className="btn-secondary" onClick={onCancel}>
               {lang === "en" ? "Cancel" : "ሰርዝ"}
@@ -124,6 +139,5 @@ export default function Login({ lang, API_BASE, onSuccess, onCancel }) {
         </form>
       </div>
     </div>
-  )
+  );
 }
-
