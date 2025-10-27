@@ -71,6 +71,7 @@ const translations = {
     changePasswordFail: "Failed to change password",
   },
 
+
   am: {
     // General
     home: "መነሻ",
@@ -89,8 +90,8 @@ const translations = {
     language: "English", // Show English when Amharic is active
 
     // Header / Hero
-    welcome: "እንኳን ወደ የኢትዮጵያ ስታቲስቲክስ አገልግሎት በደህና መጡ",
-    heroSubtitle: "የትክክለኛ መረጃ ለየተሻለ ወደፊት።",
+    welcome: "እንኳን ወደ ኢትዮጵያ ስታቲስቲክስ አገልግሎት በደህና መጡ",
+    heroSubtitle: "ትክክለኛ መረጃ ለተሻለ ወደፊት።",
     ourServices: "የእኛ የስታቲስቲክስ አገልግሎቶች",
 
     dashboard: "ዳሽቦርድ",
