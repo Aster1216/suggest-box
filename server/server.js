@@ -7,26 +7,22 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// ✅ Connect to MongoDB Atlas
-connectDB(process.env.MONGO_URI);
+// Connect DB
+const MONGO = process.env.MONGO_URI || 'mongodb://localhost:27017/suggestbox';
+connectDB(MONGO);
 
 // Routes
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/bureaus', require('./routes/bureauRoutes'));
-app.use('/api/suggestions', require('./routes/suggestionRoutes'));
+app.use('/api/auth', require('./routes/auth'));           // login
+app.use('/api/bureaus', require('./routes/bureauRoutes'));// list bureaus
+app.use('/api/suggestions', require('./routes/suggestionRoutes')); // suggestions
 
-// Root route
-app.get('/', (req, res) => res.json({ ok: true }));
+app.get('/', (req,res)=> res.json({ ok:true }));
 
-// Error handler
+// Global error handler
 app.use((err, req, res, next) => {
-  console.error('Server error:', err);
-  res.status(500).json({ error: 'Server error', details: err.message });
+  console.error(err.stack);
+  res.status(500).json({ error: "Server error" });
 });
 
-// ✅ Start server locally
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
-// Export app (for Vercel)
-module.exports = app;
+app.listen(PORT, ()=> console.log('✅ Server running on', PORT));
