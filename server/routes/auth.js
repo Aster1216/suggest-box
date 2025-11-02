@@ -47,5 +47,37 @@ router.get('/bureaus', async (req, res) => {
   }
 });
 
+// Change password
+router.post('/change-password', async (req, res) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) return res.status(401).json({ error: "No token provided" });
+
+    const token = authHeader.split(" ")[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || "change_me");
+
+    const { oldPassword, newPassword } = req.body;
+    if (!oldPassword || !newPassword) {
+      return res.status(400).json({ error: "Both old and new passwords are required" });
+    }
+
+    const bureau = await Bureau.findById(decoded.id);
+    if (!bureau) return res.status(404).json({ error: "Bureau not found" });
+
+    const match = await bcrypt.compare(oldPassword, bureau.passwordHash);
+    if (!match) return res.status(400).json({ error: "Old password is incorrect" });
+
+    const newHash = await bcrypt.hash(newPassword, 10);
+    bureau.passwordHash = newHash;
+    await bureau.save();
+
+    res.json({ message: "Password updated successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+
 module.exports = router;
 
