@@ -1,19 +1,21 @@
-require('dotenv').config({ path: require('path').join(__dirname, '../.env') });
+// seedBureaus.js
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const Bureau = require('../models/Bureau'); // ✅ fixed path
+const Bureau = require('../models/Bureau');
+require('dotenv').config();
 
+// Add password for each bureau
 const bureaus = [
   { en: "Economic Statistics Deputy Director General", am: "የኢኮኖሚ ስታቲክስ ዘርፍ ምክትል ዋና ዳይሬክተር", key: "economic", password: "economic123" },
   { en: "Agriculture Statistics CEO", am: "የግብርና ስታቲክስ መሪ ሥራ አስፈፃሚ", key: "agriculture", password: "agriculture123" },
-  { en: "Business Statistics CEO", am: "የቢዝነስ ስታቲስቲክስ መሪ ሣራ አስፈፃሚ", key: "business", password: "business123" },
-  { en: "Price Statistics CEO", am: "የዋጋ ስታቲስቲክስ መሪ ሥራ አስፈፃሚ", key: "price", password: "price123" },
-  { en: "Geospatial Statistics CEO", am: "የጂኦስፓሻል ስታቲስቲክስ መሪ ሣራ አስፈፃሚ", key: "geo", password: "geo123" },
+  { en: "Business Statistics CEO", am: "የቢዝነስ ስታቲክስ መሪ ሣራ አስፈፃሚ", key: "business", password: "business123" },
+  { en: "Price Statistics CEO", am: "የዋጋ ስታቲስቲክስ መሪ ስራ አስፈፃሚ", key: "price", password: "price123" },
+  { en: "Geospatial Statistics CEO", am: "የጂኦስፓሻል ስታቲክስ መሪ ሣራ አስፈፃሚ", key: "geo", password: "geo123" },
   { en: "Statistical Data Dissemination CEO", am: "የስታቲሲቲካል መረጃ ስርጭት እና መዳረሻ መሪ ሣራ አስፈፃሚ", key: "dissemination", password: "dissemination123" },
   { en: "Statistical System Development and Methodology Deputy Director General", am: "የስታቲስቲካል ስርዓት ልማት እና ዘዴ ምክትል ዋና ዳይሬክተር", key: "system", password: "system123" },
-  { en: "HouseHold Budget and Labour Statistics CEO", am: "የቤተሰብ በጀት እና የጉልበት ስታቲስቲክስ ዋና ሣራ አስፈፃሚ", key: "household", password: "household123" },
+  { en: "HouseHold Budget and Labour Statistics CEO", am: "የቤተሰብ በጀት እና የጉልበት ስታቲክስ ዋና ሣራ አስፈፃሚ", key: "household", password: "household123" },
   { en: "Director General", am: "ዋና ዳይሬክተር", key: "director", password: "director123" },
-  { en: "Statistical Surveys Methodology CEO", am: "የስታቲስቲካል ጥናቶች ዘዴ ዋና ሣራ አስፈፃሚ", key: "surveys", password: "surveys123" },
+  { en: "Statistical Surveys Methodology CEO", am: "የስታቲካል ጥናቶች ዘዴ ዋና ሣራ አስፈፃሚ", key: "surveys", password: "surveys123" },
   { en: "Branch Offices and Operation Coordination CEO", am: "የቅርንጫፍ ቢሮዎች እና ኦፕሬሽን መሪ ሣራ አስፈፃሚ", key: "branches", password: "branches123" },
   { en: "Administrative Data Harmonization Standard and Quality CEO", am: "የአስተዳደር መረጃ ቅንጅት ስታንዳርድ እና ጥናት መሪ ሣራ አስፈፃሚ", key: "admin", password: "admin123" },
   { en: "Statistical Study Research and Training CEO", am: "የስታቲክስ ጥናት ምርምር እና ስልጠና መሪ ሣራ አስፈፃሚ", key: "research", password: "research123" },
@@ -22,16 +24,16 @@ const bureaus = [
 
 (async () => {
   try {
-    if (!process.env.MONGO_URI) {
-      console.error('❌ MONGO_URI is missing in .env');
-      process.exit(1);
-    }
+    const mongoURI = process.env.MONGO_URI || "mongodb+srv://suggestion_box:password1234@suggestion-box.ydmwewm.mongodb.net/suggestbox";
 
-    await mongoose.connect(process.env.MONGO_URI);
-    console.log('✅ Connected to MongoDB Atlas');
+    await mongoose.connect(mongoURI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log("✅ Connected to MongoDB Atlas...");
 
     await Bureau.deleteMany();
-    console.log('🗑️ Old bureaus cleared');
+    console.log("🗑️ Old bureaus cleared");
 
     for (let b of bureaus) {
       const hashed = await bcrypt.hash(b.password, 10);
@@ -45,10 +47,10 @@ const bureaus = [
       console.log(`✔ Created: ${b.key}@ethiostat.gov.et | password: ${b.password}`);
     }
 
-    console.log('🎉 Bureaus seeded successfully');
-    process.exit(0);
+    console.log("🎉 Bureaus seeded successfully!");
+    process.exit();
   } catch (err) {
-    console.error('❌ Error seeding bureaus:', err);
+    console.error("❌ Error seeding bureaus:", err);
     process.exit(1);
   }
 })();
