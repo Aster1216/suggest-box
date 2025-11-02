@@ -11,11 +11,46 @@ export default function ChangePassword({ t }) {
   const [showConfirm, setShowConfirm] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [strengthMsg, setStrengthMsg] = useState("");
+
+  // ✅ Password strength check
+  const validatePasswordStrength = (password) => {
+    const minLength = /.{8,}/;
+    const upperCase = /[A-Z]/;
+    const lowerCase = /[a-z]/;
+    const number = /[0-9]/;
+    const specialChar = /[!@#$%^&*(),.?":{}|<>]/;
+
+    if (!minLength.test(password))
+      return "Password must be at least 8 characters long.";
+    if (!upperCase.test(password))
+      return "Include at least one uppercase letter.";
+    if (!lowerCase.test(password))
+      return "Include at least one lowercase letter.";
+    if (!number.test(password)) return "Include at least one number.";
+    if (!specialChar.test(password))
+      return "Include at least one special character (!@#$%^&*).";
+
+    return ""; // ✅ Strong password
+  };
+
+  const handleNewPasswordChange = (value) => {
+    setNewPassword(value);
+    const msg = validatePasswordStrength(value);
+    setStrengthMsg(msg);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setMessage("");
+
+    // ✅ Check strength
+    const strengthError = validatePasswordStrength(newPassword);
+    if (strengthError) {
+      setError(strengthError);
+      return;
+    }
 
     if (newPassword !== confirmPassword) {
       setError(t?.passwordsDontMatch || "Passwords do not match.");
@@ -35,10 +70,13 @@ export default function ChangePassword({ t }) {
         setOldPassword("");
         setNewPassword("");
         setConfirmPassword("");
+        setStrengthMsg("");
       }
     } catch (err) {
       setError(
-        err.response?.data?.message || t?.changePasswordFail || "Error changing password. Try again."
+        err.response?.data?.message ||
+          t?.changePasswordFail ||
+          "Error changing password. Try again."
       );
     }
   };
@@ -75,7 +113,7 @@ export default function ChangePassword({ t }) {
             <input
               type={showNew ? "text" : "password"}
               value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
+              onChange={(e) => handleNewPasswordChange(e.target.value)}
               required
               placeholder={t?.newPassword || "Enter new password"}
             />
@@ -86,6 +124,14 @@ export default function ChangePassword({ t }) {
               {showNew ? <FaEyeSlash /> : <FaEye />}
             </span>
           </div>
+          {/* ✅ Show live password strength feedback */}
+          {strengthMsg ? (
+            <p className="error-msg small-text">{strengthMsg}</p>
+          ) : (
+            newPassword && (
+              <p className="success-msg small-text">Strong password ✅</p>
+            )
+          )}
         </div>
 
         {/* Confirm New Password */}
@@ -108,7 +154,11 @@ export default function ChangePassword({ t }) {
           </div>
         </div>
 
-        <button type="submit" className="change-password-btn">
+        <button
+          type="submit"
+          className="change-password-btn"
+          disabled={!!validatePasswordStrength(newPassword)} // ❌ disable if weak
+        >
           {t?.updatePasswordBtn || "Update Password"}
         </button>
 
