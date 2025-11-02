@@ -586,6 +586,32 @@ a {
   outline: none;
 }
 
+/* Password input with eye icon */
+.password-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-container input {
+  width: 100%;
+  padding-right: 38px; /* space for the eye icon */
+}
+
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.password-toggle:hover {
+  color: var(--navy);
+}
+
 /* Buttons inside login modal */
 .modal-content .actions {
   display: flex;
@@ -659,6 +685,8 @@ a {
     background: rgba(255, 255, 255, 0.25);
     color: var(--accent);
   }
+
+  
 
   /* if logout is inside mobile nav */
   .mobile-nav .logout-btn {
@@ -788,6 +816,70 @@ a {
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 15px;
+}
+
+.change-password-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: var(--accent, #007bff);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.change-password-btn:hover {
+  background-color: #0056b3;
+}
+
+.success-msg {
+  color: green;
+  text-align: center;
+  margin-top: 15px;
+}
+
+.error-msg {
+  color: red;
+  text-align: center;
+  margin-top: 15px;
+}
+
+/* Password container for eye toggle */
+.password-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-container input {
+  width: 100%;
+  padding: 10px 38px 10px 10px; /* leave space for eye icon */
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+.password-container input:focus {
+  border-color: var(--primary-color, #004080);
+  box-shadow: 0 0 0 3px rgba(0, 64, 128, 0.15);
+  outline: none;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  color: #666;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.password-toggle:hover {
+  color: var(--primary-color, #004080);
 }
 
 .change-password-btn {
