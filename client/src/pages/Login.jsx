@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
-export default function Login({ lang, API_BASE, onSuccess, onCancel }) {
+export default function Login({ lang, API_BASE, onSuccess }) {
   const [bureaus, setBureaus] = useState([]);
   const [office, setOffice] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   // Load bureaus from API
   useEffect(() => {
@@ -132,7 +135,12 @@ export default function Login({ lang, API_BASE, onSuccess, onCancel }) {
                 ? "Login"
                 : "ግባ"}
             </button>
-            <button type="button" className="btn-secondary" onClick={onCancel}>
+
+            <button
+              type="button"
+              className="btn-secondary"
+              onClick={() => navigate("/")} // ✅ Go home
+            >
               {lang === "en" ? "Cancel" : "ሰርዝ"}
             </button>
           </div>
