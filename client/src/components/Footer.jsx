@@ -10,7 +10,7 @@ export default function Footer({ t }) {
       <div className="container">
         {/* Quick Links */}
         <div className="quick-links">
-          <h3>Quick Links</h3>
+          <h3>{t.quickLinks || (t.en ? "Quick Links" : "መነሻ")}</h3>
           <Link to="/">{t.home}</Link>
           <Link to="/submit">{t.suggestion}</Link>
           <Link to="/public">{t.public}</Link>
@@ -19,16 +19,19 @@ export default function Footer({ t }) {
 
         {/* Contact Info */}
         <div className="contact">
-          <h3>HEADQUARTERS</h3>
-          <p>Churchill Road, Addis Ababa</p>
-          <p>Tele: +251-11553112, +251-11553011</p>
-          <p>P.O.Box: 1143</p>
-          <p>Email: info@ess.gov.et</p>
+          <h3>{t.contactUs}</h3>
+          <p>{t.address || "Churchill Road, Addis Ababa"}</p>
+          <p>
+            {t.phone || "Tele"}: +251-11553112, +251-11553011
+          </p>
+          <p>
+            {t.email || "Email"}: info@ess.gov.et
+          </p>
         </div>
 
         {/* Social Icons */}
         <div className="social-icons">
-          <h3>Follow Us</h3>
+          <h3>{t.followUs || "Follow Us"}</h3>
           <div className="icons">
             <a
               href="https://www.facebook.com/essethiopia/"
@@ -48,8 +51,9 @@ export default function Footer({ t }) {
         </div>
       </div>
 
+      {/* Footer Bottom */}
       <div className="footer-bottom">
-        © {currentYear} Ethiopian Statistics Service. All rights reserved.
+        © {currentYear} {t.rights || "Ethiopian Statistics Service. All rights reserved."}
       </div>
     </footer>
   );
