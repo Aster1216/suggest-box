@@ -30,11 +30,14 @@ router.post('/', async (req, res) => {
 router.get('/bureau', protect, async (req, res) => {
   try {
     const items = await Suggestion.find({ bureau: req.bureau._id }).sort({ createdAt: -1 });
-    res.json({ bureau: req.bureau, suggestions: items });
+    const total = await Suggestion.countDocuments({ bureau: req.bureau._id }); // ✅ Count total
+
+    res.json({ bureau: req.bureau, suggestions: items, total }); // ✅ Send total count
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
+
 
 // Public suggestions
 router.get('/public', async (req, res) => {
