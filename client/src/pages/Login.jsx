@@ -5,14 +5,24 @@ import { useNavigate } from "react-router-dom";
 export default function Login({ lang, API_BASE, onSuccess }) {
   const [bureaus, setBureaus] = useState([]);
   const [office, setOffice] = useState("");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("");        // display only
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
-  // Load bureaus from API
+  /* =========================
+     RESET FORM ON LOAD
+  ========================= */
+  useEffect(() => {
+    setOffice("");
+    setEmail("");
+    setPassword("");
+    setShowPassword(false);
+  }, []);
+
+  /* LOAD BUREAUS */
   useEffect(() => {
     async function load() {
       try {
@@ -27,25 +37,31 @@ export default function Login({ lang, API_BASE, onSuccess }) {
     load();
   }, [API_BASE]);
 
-  // Auto-fill email when office changes
+  /* AUTO-FILL EMAIL (READ ONLY) */
   useEffect(() => {
     if (office) {
       const bureau = bureaus.find((b) => b.key === office);
-      if (bureau) setEmail(bureau.email || "");
+      setEmail(bureau?.email || "");
     } else {
       setEmail("");
     }
   }, [office, bureaus]);
 
+  /*  LOGIN SUBMIT */
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
+
     try {
       const res = await fetch(`${API_BASE}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ office, email, password }),
+        body: JSON.stringify({
+          office,
+          password
+        })
       });
+
       const data = await res.json();
 
       if (res.ok && data.token) {
@@ -56,8 +72,8 @@ export default function Login({ lang, API_BASE, onSuccess }) {
         alert(data.error || "Invalid credentials");
       }
     } catch (err) {
-      alert("Server error");
       console.error(err);
+      alert("Server error");
     } finally {
       setLoading(false);
     }
@@ -69,7 +85,7 @@ export default function Login({ lang, API_BASE, onSuccess }) {
         <h2>{lang === "en" ? "Login" : "ግባ"}</h2>
 
         <form onSubmit={handleSubmit}>
-          {/* Office Dropdown */}
+          {/* Office */}
           <label>
             <span>{lang === "en" ? "Select Office" : "ቢሮ ይምረጡ"}</span>
             <select
@@ -88,21 +104,22 @@ export default function Login({ lang, API_BASE, onSuccess }) {
             </select>
           </label>
 
-          {/* Email */}
+          {/* Email (READ ONLY) */}
           <label>
             <span>{lang === "en" ? "Bureau Email" : "ኢሜይል"}</span>
             <input
               type="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              disabled
               placeholder={
-                lang === "en" ? "Enter bureau email" : "ኢሜይል ያስገቡ"
+                lang === "en"
+                  ? "Auto-filled from selected office"
+                  : "ከቢሮ በራስ-ሰር ይሞላል"
               }
-              required
             />
           </label>
 
-          {/* Password with Eye Toggle */}
+          {/* Password */}
           <label>
             <span>{lang === "en" ? "Password" : "የይለፍ ቃል"}</span>
             <div className="password-container">
@@ -111,7 +128,9 @@ export default function Login({ lang, API_BASE, onSuccess }) {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder={
-                  lang === "en" ? "Enter password" : "የይለፍ ቃል ያስገቡ"
+                  lang === "en"
+                    ? "Enter password"
+                    : "የይለፍ ቃል ያስገቡ"
                 }
                 required
               />
@@ -139,7 +158,7 @@ export default function Login({ lang, API_BASE, onSuccess }) {
             <button
               type="button"
               className="btn-secondary"
-              onClick={() => navigate("/")} // ✅ Go home
+              onClick={() => navigate("/")}
             >
               {lang === "en" ? "Cancel" : "ሰርዝ"}
             </button>
